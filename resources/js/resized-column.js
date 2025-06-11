@@ -27,20 +27,16 @@ document.addEventListener("alpine:init", () => {
                 if (!this.column || !this.table || !this.tableWrapper) return;
 
                 this.initializeColumnLayout();
-
-                if (sessionBrowser) {
-                    const savedWidth = this.getSavedWidth();
-                    if (savedWidth) {
-                        this.applyColumnWidth(savedWidth);
-                    }
-                } else {
-                    this.setupLivewireUpdates();
-                }
+                this.setupLivewireUpdates();
             },
 
             initializeColumnLayout() {
                 this.column.classList.add("relative", "group/column-resize");
                 this.createHandleBar();
+                const savedWidth = this.getSavedWidth();
+                if (savedWidth) {
+                    this.applyColumnWidth(savedWidth);
+                }
             },
 
             createHandleBar() {

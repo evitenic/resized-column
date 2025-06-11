@@ -1,6 +1,6 @@
 <?php
 
-namespace Asmit\ResizedColumn;
+namespace Evitenic\ResizedColumn;
 
 use Filament\Support\Assets\Css;
 use Filament\Support\Assets\Js;
@@ -12,7 +12,7 @@ class ResizedColumnServiceProvider extends PackageServiceProvider
 {
     public function configurePackage(Package $package): void
     {
-        $package->name('asmit-resized-column')
+        $package->name('evitenic-resized-column')
             ->hasMigrations([
                 'create_table_settings',
             ]);
@@ -23,7 +23,7 @@ class ResizedColumnServiceProvider extends PackageServiceProvider
         FilamentAsset::register([
             Js::make('resized-column', __DIR__.'/../resources/dist/js/resized-column.js'),
             Css::make('resized-column', __DIR__.'/../resources/css/resized-column.css'),
-        ], 'asmit/resized-column');
+        ], 'evitenic/resized-column');
 
         // Register publishable migrations
         if ($this->app->runningInConsole()) {

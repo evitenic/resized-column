@@ -1,8 +1,8 @@
 <?php
 
-namespace Asmit\ResizedColumn\Setup;
+namespace Evitenic\ResizedColumn\Setup;
 
-use Asmit\ResizedColumn\Setup\Concerns\CanResizedColumn;
+use Evitenic\ResizedColumn\Setup\Concerns\CanResizedColumn;
 
 class Setup
 {
@@ -10,6 +10,6 @@ class Setup
 
     public static function resizedColumnPlugged(): bool
     {
-        return filament()->hasPlugin('asmit-resized-column') && filament()->getCurrentPanel();
+        return filament()->hasPlugin('evitenic-resized-column') && filament()->getCurrentPanel();
     }
 }

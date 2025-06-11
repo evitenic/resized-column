@@ -1,12 +1,14 @@
 <?php
 
-namespace Asmit\ResizedColumn\Plugin\Concerns;
+namespace Evitenic\ResizedColumn\Plugin\Concerns;
 
 trait CanResizedColumn
 {
     protected bool $isPreserveOnDbEnabled = false;
 
     protected bool $isPreserveOnSessionEnabled = true;
+
+    protected bool $isPreserveOnSessionBrowserEnabled = false;
 
     public function preserveOnDB(bool $condition = true): self
     {
@@ -28,6 +30,18 @@ trait CanResizedColumn
     }
 
     public function isPreserveOnSessionEnabled(): bool
+    {
+        return $this->isPreserveOnSessionEnabled;
+    }
+
+    public function preserveOnSessionBrowser(bool $condition = true): self
+    {
+        $this->isPreserveOnSessionBrowserEnabled = $condition;
+
+        return $this;
+    }
+
+    public function isPreserveOnSessionBrowserEnabled(): bool
     {
         return $this->isPreserveOnSessionEnabled;
     }

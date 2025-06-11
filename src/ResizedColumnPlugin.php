@@ -1,8 +1,8 @@
 <?php
 
-namespace Asmit\ResizedColumn;
+namespace Evitenic\ResizedColumn;
 
-use Asmit\ResizedColumn\Plugin\Concerns\CanResizedColumn;
+use Evitenic\ResizedColumn\Plugin\Concerns\CanResizedColumn;
 use Filament\Contracts\Plugin;
 use Filament\Panel;
 
@@ -22,7 +22,7 @@ class ResizedColumnPlugin implements Plugin
 
     public function getId(): string
     {
-        return 'asmit-resized-column';
+        return 'evitenic-resized-column';
     }
 
     public function register(Panel $panel): void

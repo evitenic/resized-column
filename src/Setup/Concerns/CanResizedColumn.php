@@ -1,8 +1,8 @@
 <?php
 
-namespace Asmit\ResizedColumn\Setup\Concerns;
+namespace Evitenic\ResizedColumn\Setup\Concerns;
 
-use Asmit\ResizedColumn\ResizedColumnPlugin;
+use Evitenic\ResizedColumn\ResizedColumnPlugin;
 
 trait CanResizedColumn
 {
@@ -22,5 +22,14 @@ trait CanResizedColumn
         }
 
         return config('resized-column.preserve_on_session', true);
+    }
+
+    public static function preserveOnSessionBrowser(): bool
+    {
+        if (self::resizedColumnPlugged()) {
+            return ResizedColumnPlugin::get()->isPreserveOnSessionBrowserEnabled();
+        }
+
+        return config('resized-column.preserve_on_session_browser', true);
     }
 }

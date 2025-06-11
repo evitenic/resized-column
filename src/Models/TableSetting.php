@@ -1,6 +1,6 @@
 <?php
 
-namespace Asmit\ResizedColumn\Models;
+namespace Evitenic\ResizedColumn\Models;
 
 use Illuminate\Database\Eloquent\Model;
 

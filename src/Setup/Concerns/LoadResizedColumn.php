@@ -1,9 +1,9 @@
 <?php
 
-namespace Asmit\ResizedColumn\Setup\Concerns;
+namespace Evitenic\ResizedColumn\Setup\Concerns;
 
-use Asmit\ResizedColumn\Models\TableSetting;
-use Asmit\ResizedColumn\Setup\Setup;
+use Evitenic\ResizedColumn\Models\TableSetting;
+use Evitenic\ResizedColumn\Setup\Setup;
 use Filament\Tables\Columns\Column;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
@@ -17,7 +17,7 @@ trait LoadResizedColumn
      */
     protected array $columnWidths = [];
 
-    private function applyExtraAttributes(string $columnName, Column $column): void
+    private function applyExtraAttributes(string $columnName, Column $column, int $minColumnWidth, int $maxColumnWidth): void
     {
         /**
          * @var Column $column
@@ -28,7 +28,13 @@ trait LoadResizedColumn
         $columnId = $this->getColumnHtmlId($columnName);
 
         $column->extraHeaderAttributes([
-            'x-data' => "resizedColumn(`{$columnName}`, `{$columnId}`)",
+            'x-data' => "resizedColumn({
+                columnName: '{$columnName}',
+                columnId: '{$columnId}',
+                minColumnWidth: {$minColumnWidth},
+                maxColumnWidth: {$maxColumnWidth},
+                sessionBrowser: {$this->isPreservedOnSessionBrowser()}
+            })",
             ...$styles['header'],
         ])
             ->extraCellAttributes($styles['cell']);
@@ -65,6 +71,8 @@ trait LoadResizedColumn
     #[Renderless]
     public function updateColumnWidth(string $columnName, string $newWidth): void
     {
+        if(self::isPreservedOnSessionBrowser()) return;
+
         $this->columnWidths[$columnName]['width'] = $newWidth;
 
         if (self::isPreservedOnDB()) {
@@ -177,5 +185,10 @@ trait LoadResizedColumn
     public static function isPreservedOnSession(): bool
     {
         return Setup::preserveOnSession();
+    }
+
+    public static function isPreservedOnSessionBrowser(): bool
+    {
+        return Setup::preserveOnSessionBrowser();
     }
 }

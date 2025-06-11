@@ -29,6 +29,7 @@ trait LoadResizedColumn
 
         $column->extraHeaderAttributes([
             'x-data' => "resizedColumn({
+                tableKey: '{$this->getSessionKey()}',
                 columnName: '{$columnName}',
                 columnId: '{$columnId}',
                 minColumnWidth: {$minColumnWidth},

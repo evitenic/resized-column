@@ -1,17 +1,21 @@
 {
-    "name": "asmit/resized-column",
+    "name": "evitenic/resized-column",
     "description": "Resizeable column for filament",
     "type": "library",
     "license": "MIT",
     "autoload": {
         "psr-4": {
-            "Asmit\\ResizedColumn\\": "src/"
+            "Evitenic\\ResizedColumn\\": "src/"
         }
     },
     "authors": [
         {
             "name": "AsmitNepali",
             "email": "mail2asmitnepali@gmail.com"
+        },
+        {
+            "name": "Evitenic",
+            "email": "evitenic@gmail.com"
         }
     ],
     "minimum-stability": "dev",
@@ -21,7 +25,7 @@
     "extra": {
         "laravel": {
             "providers": [
-                "Asmit\\ResizedColumn\\ResizedColumnServiceProvider"
+                "Evitenic\\ResizedColumn\\ResizedColumnServiceProvider"
             ]
         }
     }

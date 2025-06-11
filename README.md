@@ -24,7 +24,7 @@ composer require asmit/resized-column
 Add the plugin to your Filament panel configuration in `app/Providers/Filament/AdminPanelProvider.php`:
 
 ```php
-use Asmit\ResizedColumn\ResizedColumnPlugin;
+use Evitenic\ResizedColumn\ResizedColumnPlugin;
 
 public function panel(Panel $panel): Panel
 {
@@ -45,7 +45,7 @@ php artisan filament:assets
 ## Publishing Migrations
 ```bash
 # Publish migrations
-php artisan vendor:publish --provider="Asmit\ResizedColumn\ResizedColumnServiceProvider" --tag=resized-column-migrations
+php artisan vendor:publish --provider="Evitenic\ResizedColumn\ResizedColumnServiceProvider" --tag=resized-column-migrations
 
 # Run migrations
 php artisan migrate
@@ -54,7 +54,7 @@ php artisan migrate
 ## Usage
 To use the Resized Column functionality, simply include the `HasResizableColumn` trait in your Filament List Page or your custom page class. This will automatically enable the resizable column feature for all tables in that resource.
 ```php
-use Asmit\ResizedColumn\HasResizableColumn;
+use Evitenic\ResizedColumn\HasResizableColumn;
 
 class ListUsers extends ListRecords
 {
@@ -102,7 +102,7 @@ You can override any of the following methods in your class to customize behavio
 ## Example: Custom Database Storage
 
 ```php
-use Asmit\ResizedColumn\HasResizableColumn;
+use Evitenic\ResizedColumn\HasResizableColumn;
 
 class ListUsers extends ListRecords
 {

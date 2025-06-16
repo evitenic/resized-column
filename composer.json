@@ -20,7 +20,8 @@
     ],
     "minimum-stability": "dev",
     "require": {
-        "filament/support": "^3.2"
+        "filament/support": "^3.2",
+        "filament/tables": "^3.2"
     },
     "extra": {
         "laravel": {

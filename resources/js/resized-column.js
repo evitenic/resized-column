@@ -13,7 +13,7 @@ document.addEventListener("alpine:init", () => {
             tableWrapperContentSelector: ".fi-ta-content",
             tableSelector: ".fi-ta-table",
             tableBodyCellPrefix: "fi-table-cell-",
-            debounceTime: 500,
+            debounceTime: 0,
             currentWidth: 0,
             originalWidth: 0,
             originalTableWidth: 0,
@@ -51,6 +51,15 @@ document.addEventListener("alpine:init", () => {
 
                 this.column.appendChild(this.handleBar);
                 this.handleBar.addEventListener("mousedown", (e) => this.startResize(e));
+
+                this.handleBar.addEventListener("dblclick", (e) => this.handleDoubleClick(e));
+            },
+
+            handleDoubleClick(event) {
+                event.preventDefault();
+                event.stopPropagation();
+                this.applyColumnWidth(this.minColumnWidth);
+                this.handleColumnUpdate(this.minColumnWidth);
             },
 
             startResize(event) {
@@ -64,8 +73,6 @@ document.addEventListener("alpine:init", () => {
                 const startX = event.pageX;
 
                 const onMouseMove = (moveEvent) => {
-                    if (moveEvent.pageX === startX) return;
-
                     const offsetX = moveEvent.pageX - startX;
                     this.currentWidth = Math.max(
                         this.minColumnWidth,
@@ -81,18 +88,17 @@ document.addEventListener("alpine:init", () => {
                         : "auto";
 
                     this.applyColumnWidth(this.currentWidth);
-                    this.$dispatch("column-resized");
+                    if(!sessionBrowser) this.$dispatch("column-resized");
                 };
 
                 const onMouseUp = () => {
                     this.handleBar.classList.remove("active");
-                    this.debounce(() => {
-                        if (sessionBrowser) {
-                            this.saveWidthToStorage(this.currentWidth);
-                        } else {
-                            this.$wire.updateColumnWidth(columnId, this.currentWidth);
-                        }
-                    }, this.debounceTime)();
+
+                    if(this.debounceTime > 0) {
+                        this.debounce(() => this.handleColumnUpdate(), this.debounceTime)();
+                    } else {
+                        this.handleColumnUpdate();
+                    }
 
                     document.removeEventListener("mousemove", onMouseMove);
                     document.removeEventListener("mouseup", onMouseUp);
@@ -100,6 +106,14 @@ document.addEventListener("alpine:init", () => {
 
                 document.addEventListener("mousemove", onMouseMove);
                 document.addEventListener("mouseup", onMouseUp);
+            },
+
+            handleColumnUpdate(width = this.currentWidth) {
+                if (sessionBrowser) {
+                    this.saveWidthToStorage(width);
+                } else {
+                    this.$wire.updateColumnWidth(columnId, width);
+                }
             },
 
             applyColumnWidth(width) {
@@ -112,10 +126,10 @@ document.addEventListener("alpine:init", () => {
                 });
             },
 
-            setColumnStyles(element, width) {
+            setColumnStyles(element, width, minWidth = this.minColumnWidth, maxWidth = this.maxColumnWidth) {
                 element.style.width = `${width}px`;
-                element.style.minWidth = `${width}px`;
-                element.style.maxWidth = `${width}px`;
+                element.style.minWidth = `${minWidth}px`;
+                element.style.maxWidth = `${maxWidth}px`;
             },
 
             escapeCssClass(className) {
@@ -148,17 +162,13 @@ document.addEventListener("alpine:init", () => {
             },
 
             saveWidthToStorage(width) {
-                try {
-                    sessionStorage.setItem(
+                sessionStorage.setItem(
                         this.getStorageKey(),
                         Math.max(
                             this.minColumnWidth,
                             Math.min(this.maxColumnWidth, width)
                         ).toString()
                     );
-                } catch (e) {
-                    console.error("Failed to save column width:", e);
-                }
             },
         };
     });

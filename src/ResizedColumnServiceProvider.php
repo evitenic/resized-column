@@ -15,7 +15,8 @@ class ResizedColumnServiceProvider extends PackageServiceProvider
         $package->name('evitenic-resized-column')
             ->hasMigrations([
                 'create_table_settings',
-            ]);
+            ])
+            ->hasViews('resized-column');
     }
 
     public function packageBooted(): void

@@ -31,7 +31,7 @@ document.addEventListener("alpine:init", () => {
             },
 
             initializeColumnLayout() {
-                this.column.classList.add("relative", "group/column-resize");
+                this.column.classList.add("relative", "group/column-resize", "overflow-hidden");
                 this.createHandleBar();
                 const savedWidth = this.getSavedWidth();
                 if (savedWidth) {

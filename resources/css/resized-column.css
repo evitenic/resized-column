@@ -4,11 +4,11 @@
     top: 50%;
     height: 66.666667%;
     transform: translateY(-50%);
-    width: 1rem;
+    width: 4px;
     cursor: col-resize;
     user-select: none;
     touch-action: none;
-    right: -0.5rem;
+    right: 0;
     z-index: 1;
     display: flex;
     justify-content: center;

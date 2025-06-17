@@ -129,10 +129,10 @@ document.addEventListener("alpine:init", () => {
                 });
             },
 
-            setColumnStyles(element, width, minWidth = this.minColumnWidth, maxWidth = this.maxColumnWidth) {
-                element.style.width = `${width}px`;
-                element.style.minWidth = `${minWidth}px`;
-                element.style.maxWidth = `${maxWidth}px`;
+            setColumnStyles(element, width) {
+                element.style.width = width ? `${width}px` : 'auto';
+                element.style.minWidth = width ? `${width}px` : 'auto';
+                element.style.maxWidth = width ? `${width}px` : 'auto';
             },
 
             escapeCssClass(className) {

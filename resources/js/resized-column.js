@@ -58,32 +58,35 @@ document.addEventListener("alpine:init", () => {
             handleDoubleClick(event) {
                 event.preventDefault();
                 event.stopPropagation();
-                this.applyColumnWidth(this.minColumnWidth);
-                this.handleColumnUpdate(this.minColumnWidth);
+                this.applyColumnWidth(100);
+                this.handleColumnUpdate(100);
             },
 
-            startResize(event) {
+            startResize (event) {
                 event.preventDefault();
                 this.handleBar.classList.add("active");
 
-                // Store initial measurements
-                this.originalWidth = Math.round(this.column.offsetWidth);
-                this.originalTableWidth = Math.round(this.table.offsetWidth);
-                this.originalWrapperWidth = Math.round(this.tableWrapper.offsetWidth);
                 const startX = event.pageX;
+                const originalColumnWidth = Math.round(this.column.offsetWidth);
+                const originalTableWidth = Math.round(this.table.offsetWidth);
+                const originalWrapperWidth = Math.round(this.tableWrapper.offsetWidth);
+
 
                 const onMouseMove = (moveEvent) => {
-                    const offsetX = moveEvent.pageX - startX;
-                    this.currentWidth = Math.max(
-                        this.minColumnWidth,
+                    if (moveEvent.pageX === startX) return; // Skip if no movement
+
+                    const delta = moveEvent.pageX - startX;
+
+                    this.currentWidth = Math.round(
                         Math.min(
                             this.maxColumnWidth,
-                            this.originalWidth + offsetX - 16 // Adjust for handle width
+                            Math.max(this.minColumnWidth, originalColumnWidth + delta - 16)
                         )
                     );
 
-                    const newTableWidth = this.originalTableWidth - this.originalWidth + this.currentWidth;
-                    this.table.style.width = newTableWidth > this.originalWrapperWidth
+                    const newTableWidth = originalTableWidth - originalColumnWidth + this.currentWidth;
+
+                    this.table.style.width = newTableWidth > originalWrapperWidth
                         ? `${newTableWidth}px`
                         : "auto";
 

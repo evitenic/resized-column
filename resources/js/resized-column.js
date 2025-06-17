@@ -1,5 +1,5 @@
 document.addEventListener("alpine:init", () => {
-    Alpine.data("resizedColumn", function ({ tableKey, columnId, cellPrefix, minColumnWidth, maxColumnWidth, sessionBrowser = 0 }) {
+    Alpine.data("resizedColumn", function ({ tableKey, columnId, cellName, minColumnWidth, maxColumnWidth, sessionBrowser = 0 }) {
 
         maxColumnWidth = maxColumnWidth === -1 ? Infinity : maxColumnWidth
 
@@ -122,7 +122,7 @@ document.addEventListener("alpine:init", () => {
             applyColumnWidth(width) {
                 this.setColumnStyles(this.column, width);
 
-                const cellSelector = `.${this.escapeCssClass(this.tableBodyCellPrefix + cellPrefix)}`;
+                const cellSelector = `.${this.escapeCssClass(this.tableBodyCellPrefix + cellName)}`;
                 this.table.querySelectorAll(cellSelector).forEach(cell => {
                     this.setColumnStyles(cell, width);
                     cell.style.overflow = "hidden";

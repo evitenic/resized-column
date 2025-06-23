@@ -22,7 +22,7 @@ trait LoadResizedColumn
         /**
          * @var Column $column
          */
-        $width = $this->columnWidths[$columnName]['width'] ?? null;
+        $width = $this->columnWidths[$columnName]['width'] ?? $column->getWidth();
         $styles = $this->getColumnStyles($width);
 
         $columnId = $this->getColumnHtmlId($columnName);
@@ -49,8 +49,9 @@ trait LoadResizedColumn
         if (! $width) {
             return ['header' => [], 'cell' => []];
         }
+        $getWidth = $this->getWidth($width);
+        $style = "min-width: {$getWidth}; width: {$getWidth}; max-width: {$getWidth}";
 
-        $style = "min-width: {$width}px; width: {$width}px; max-width: {$width}px";
 
         return [
             'header' => ['style' => $style],
@@ -72,7 +73,7 @@ trait LoadResizedColumn
     #[Renderless]
     public function updateColumnWidth(string $columnName, string $newWidth): void
     {
-        if(self::isPreservedOnSessionBrowser()) return;
+        if (self::isPreservedOnSessionBrowser()) return;
 
         $this->columnWidths[$columnName]['width'] = $newWidth;
 
@@ -191,5 +192,14 @@ trait LoadResizedColumn
     public static function isPreservedOnSessionBrowser(): bool
     {
         return Setup::preserveOnSessionBrowser();
+    }
+
+    public function getWidth($width): ?string
+    {
+        if (is_int($width)) {
+            $width = "{$width}px";
+        }
+
+        return $width;
     }
 }
